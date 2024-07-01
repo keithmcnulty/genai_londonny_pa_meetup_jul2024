@@ -6,3 +6,5 @@
 chroma_data/*
 chroma/*
 jupyter_test_rag_pipeline/chroma/*
+.idea/*
+app/__pycache__/*
