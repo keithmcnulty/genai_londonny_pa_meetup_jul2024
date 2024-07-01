@@ -1,0 +1,7 @@
+.env
+*.csv
+*.pickle
+*.json
+*.zip
+chroma_data/*
+chroma/*
