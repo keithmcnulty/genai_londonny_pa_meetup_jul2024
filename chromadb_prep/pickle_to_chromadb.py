@@ -59,12 +59,4 @@ for batch in batches:
                    documents=batch[3],
                    metadatas=batch[2])
 
-# test data
-# results = collection.query(
-#     query_texts=["Opinions on US foreign policy towards North Korea "],
-#     n_results=10,
-#     include=['documents', 'metadatas', 'embeddings'],
-#     where={'year': 2017}
-# )
-#
-# results
+
