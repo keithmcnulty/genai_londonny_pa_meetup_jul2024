@@ -1,9 +1,5 @@
 # packages
 import streamlit as st
-import chromadb
-import openai
-import os
-from dotenv import load_dotenv
 
 # load objects and functions from ask_question.py
 from ask_question import *
