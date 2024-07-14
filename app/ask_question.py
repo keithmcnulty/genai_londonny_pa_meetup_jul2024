@@ -2,6 +2,7 @@
 from dotenv import load_dotenv
 import chromadb
 import openai
+from anthropic import Anthropic
 import os
 from langchain_community.llms import Ollama
 import pandas as pd
@@ -74,6 +75,38 @@ def ask_question_openai(question: str, client = client,
     )
 
     return chat_completion.choices[0].message.content, sent_context
+
+# initialize an anthropic client
+anthropic_client = Anthropic(
+    base_url=os.getenv("ANTHROPIC_BASE_URL"),
+    api_key=os.getenv("LLM_TOKEN")
+)
+
+# Claude 3 function
+def ask_question_anthropic(question:str, collection: chromadb.PersistentClient() = collection_db,
+                           client = anthropic_client, n_docs: int = 30, filters: dict = {}) -> str:
+    # Find close documents in chromadb
+    collection = chroma_client.get_collection(collection)
+    results = collection.query(
+        query_texts=[question],
+        n_results=n_docs,
+        where=filters
+    )
+
+    prompt = construct_prompt(results, question)
+    sent_prompt = prompt[0]
+    sent_context = prompt[1]
+
+    res = client.messages.create(
+        model="claude-3-opus-20240229",
+        max_tokens=2000,
+        messages=[
+            {"role": "user", "content": sent_prompt},
+        ],
+    )
+
+    return res.content[0].text, sent_context
+
 
 # local SLM rag function
 def ask_question_local_slm(question: str, llm: Ollama() = llama3,

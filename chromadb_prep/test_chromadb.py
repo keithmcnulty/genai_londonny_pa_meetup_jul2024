@@ -11,7 +11,7 @@ collection = client.get_collection(COLLECTION_NAME)
 results = collection.query(
     query_texts=["What are readers opinions on US foreign policy towards North Korea?"],
     n_results=10,
-    include=['documents', 'metadatas', 'embeddings'],
+    include=['documents'],
     where={'year': 2017}
 )
 
